@@ -13,16 +13,18 @@ app.use(express.json());
 
 // HTMX-friendly proxy route
 app.get('/users', async (req, res) => {
-  const response = await fetch('https://jsonplaceholder.typicode.com/users');
-  const users = await response.json()
+  setTimeout(async () => {
+    const response = await fetch('https://jsonplaceholder.typicode.com/users');
+    const users = await response.json()
 
-  const html = users.map(user => `
+    const html = users.map(user => `
       <div >
         ${user.name}
       </div>
     `).join('');
 
-  res.send(html);
+    res.send(html);
+  }, 2000)
 });
 
 // start the server

@@ -11,15 +11,12 @@ app.use(express.urlencoded({ extended: true }));
 // parse JSON bodies (as sent by API clients)
 app.use(express.json());
 
-let counter = 0
+let currentTemperature = 35
 
-// handle GET request for polling example
-app.get('/poll', (req, res) => {
-  counter++
-
-  const data = { value: counter }
-
-  res.json(data)
+// handle GET request for weather 
+app.get('/get-temperature', (req, res) => {
+  currentTemperature += Math.random() * 2 - 1 // random temp change
+  res.send(currentTemperature.toFixed(1) + '°C')
 })
 
 // start the server

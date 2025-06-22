@@ -11,18 +11,15 @@ app.use(express.urlencoded({ extended: true }));
 // parse JSON bodies (as sent by API clients)
 app.use(express.json());
 
-// handle POST request for temp conversion
-app.post('/convert', async (req, res) => {
-  setTimeout(async () => {
-    const fahrenheit = parseInt(req.body.fahrenheit)
-    const celsius = Math.round((fahrenheit - 32) * (5 / 9))
+let counter = 0
 
-    res.send(`
-      <p>
-        ${celsius} degrees Celsius
-      </p>
-    `)
-  }, 2000)
+// handle GET request for polling example
+app.get('/poll', (req, res) => {
+  counter++
+
+  const data = { value: counter }
+
+  res.json(data)
 })
 
 // start the server

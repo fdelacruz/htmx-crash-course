@@ -11,22 +11,19 @@ app.use(express.urlencoded({ extended: true }));
 // parse JSON bodies (as sent by API clients)
 app.use(express.json());
 
-// HTMX-friendly proxy route
-app.get('/users', async (req, res) => {
+// handle POST request for temp conversion
+app.post('/convert', async (req, res) => {
   setTimeout(async () => {
-    const limit = +req.query.limit || 10
-    const response = await fetch(`https://jsonplaceholder.typicode.com/users?_limit=${limit}`);
-    const users = await response.json()
+    const fahrenheit = parseInt(req.body.fahrenheit)
+    const celsius = Math.round((fahrenheit - 32) * (5 / 9))
 
-    const html = users.map(user => `
-      <div >
-        ${user.name}
-      </div>
-    `).join('');
-
-    res.send(html);
+    res.send(`
+      <p>
+        ${celsius} degrees Celsius
+      </p>
+    `)
   }, 2000)
-});
+})
 
 // start the server
 app.listen(3000, () => {
